@@ -15,6 +15,11 @@ RAMLIBRE = '1.3.6.1.4.1.2021.4.15.0'
 RAMDISQUEUSADA = '1.3.6.1.4.1.2021.4.6.0'
 DISCOUSADO = '1.3.6.1.2.1.25.2.3.1.6.36'
 DISCOTOTAL = '1.3.6.1.2.1.25.2.3.1.5.36'
+CPU = ['1.3.6.1.2.1.25.3.3.1.2.196608',
+'1.3.6.1.2.1.25.3.3.1.2.196609',
+'1.3.6.1.2.1.25.3.3.1.2.196610',
+'1.3.6.1.2.1.25.3.3.1.2.196611'
+]
 
 def porcentajeRAMUsada(t:int, l:int) -> float:
     """A partir de la RAM total y la RAM libre (kb), obtiene 
@@ -27,6 +32,15 @@ def porcentajeRAMUsada(t:int, l:int) -> float:
 def porcentaje(t:int, l:int):
     return round((l*100)/t, 2)
 
+def temp(clase, n):
+    """Luego arreglo todo esto... neta! xD"""
+    carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, CPU[n], clase.port))
+    valorcpu = "N:" + str(carga_CPU)
+    #print (valorcpu)
+    rrdtool.update(RUTARRD+clase.ip+ "CPU"+str(n)+".rrd", valorcpu)
+    #print('LLego')
+    rf.graficarCPU(clase, n)
+
 
 def actualizar(clase):
     """Función que hace de hilo, encargado de obtener el valor de las tramas unicast
@@ -35,6 +49,7 @@ def actualizar(clase):
     Mensajes ICMP echo que ha enviado el agente
     Segmentos recibidos, incluyendo los que se han recibido con errores.
     Datagramas entregados a usuarios UDP"""
+    global RAMTOTAL, RAMLIBRE, RAMDISQUEUSADA, DISCOUSADO, DISCOTOTAL,CPU
     try:
         while clase.ence:
             """
@@ -52,12 +67,13 @@ def actualizar(clase):
             #rrdtool.dump(clase.ip+'.rrd',clase.ip+'.xml')
             """
             #Monitorear el CPU
-            carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.25.3.3.1.2.196608', clase.port))
+            """carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, CPU[0], clase.port))
             valorcpu = "N:" + str(carga_CPU)
-            #print (valorcpu)
+            print (valorcpu)
             rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
-            rf.graficarCPU(clase)
-
+            rf.graficarCPU(clase)"""
+            for i in range(len(CPU)):
+                temp(clase, i)
             #Monitorear RAM
             
             TOTAL_RAM = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))

@@ -79,7 +79,14 @@ def agregar():
     #Crear rrd para empezar a monitorear
     age.crearRRDTOOL()
     #BD para los CPU
-    crearBDRRD(age, 'CPU')
+    crearBDRRD(age, 'CPU0')
+    #BD para los CPU
+    crearBDRRD(age, 'CPU1')
+    #BD para los CPU
+    crearBDRRD(age, 'CPU2')
+    #BD para los CPU
+    crearBDRRD(age, 'CPU3')
+
     #BD para la RAM
     crearBDRRD(age, 'RAM')
     #BD para la HDD

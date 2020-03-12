@@ -33,3 +33,11 @@ Graficas/RAM.png
 RRDs/localhostRAM.rrd
 Graficas/HDD.png
 RRDs/localhostHDD.rrd
+Graficas/CPU0.png
+Graficas/CPU1.png
+Graficas/CPU2.png
+Graficas/CPU3.png
+RRDs/localhostCPU0.rrd
+RRDs/localhostCPU1.rrd
+RRDs/localhostCPU2.rrd
+RRDs/localhostCPU3.rrd

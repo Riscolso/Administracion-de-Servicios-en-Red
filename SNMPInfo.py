@@ -36,6 +36,30 @@ def consultaSNMP(comunidad,host,oid, port:int, raw:bool=False) -> str:
         #print('F')
         return '' #Para cuando hay error
 
+def snmpwalk(comunidad,host,oid, port:int, raw:bool=False):
+    try:
+        for (errorIndication,
+            errorStatus,
+            errorIndex,
+            varBinds) in nextCmd(SnmpEngine(), 
+                                CommunityData(comunidad),
+                                UdpTransportTarget((host, 161)),
+                                ContextData(),                                                           
+                                ObjectType(ObjectIdentity(oid)),
+                                lexicographicMode=False):
+            if errorIndication:
+                print(errorIndication)
+                break
+            elif errorStatus:
+                print('%s at %s' % (errorStatus.prettyPrint(),
+                                    errorIndex and varBinds[int(errorIndex) - 1][0] or '?'))
+                break
+            else:
+                for varBind in varBinds:
+                    print(' = '.join([x.prettyPrint() for x in varBind]))
+    except:
+        return None
+
     
 def graficar(host: str, t:int):
     """Tengo sueño, send hep (esto no es un meme)"""
@@ -53,6 +77,11 @@ def graficar(host: str, t:int):
         print('Super EFE ', e)
 
 OID = '1.3.6.1.2.1.25.2.3.1.6'
+
+
+#aux = snmpwalk('grupo4cv5', 'localhost', '1.3.6.1.2.1.25.3.3.1.2', '161')
+#if aux is not None:
+#    print(aux)
 
 #Sección de pruebas rápidas ;D 
 #aux = consultaSNMP('grupo4cv5', 'localhost', OID, 161)

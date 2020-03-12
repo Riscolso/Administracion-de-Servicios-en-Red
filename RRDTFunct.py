@@ -40,24 +40,24 @@ def crearBDRRD(agente: Agente, tipo:str):
 
 
 
-def graficarCPU(agente: Agente):
+def graficarCPU(agente: Agente, n):
     """Gráfica una BD de RRDTOOL
     Usa la calse de Email para enviar un correo
     en caso de pasar un umbral"""
     global ENVIO
     UMBRALCPUMED = 9
     UMBRALCPU = 10
-    ultima_lectura = int(rrdtool.last(RUTARRD+agente.ip+"CPU.rrd"))
+    ultima_lectura = int(rrdtool.last(RUTARRD+agente.ip+"CPU"+str(n)+".rrd"))
     tiempo_final = ultima_lectura
     tiempo_inicial = tiempo_final - 600
     try:
-        ret = rrdtool.graphv( RUTAGRA+"CPU.png",
+        ret = rrdtool.graphv( RUTAGRA+"CPU"+str(n)+".png",
                         "--start",str(tiempo_inicial),
                         "--end",str(tiempo_final),
                         "--vertical-label=Cpu load",
                         '--lower-limit', '0',
                         '--upper-limit', '100',
-                        "DEF:cargaCPU="+RUTARRD+agente.ip+"CPU.rrd:CPUload:AVERAGE",
+                        "DEF:cargaCPU="+RUTARRD+agente.ip+"CPU"+str(n)+".rrd:CPU"+str(n)+"load:AVERAGE",
 
                         "CDEF:umbral1=cargaCPU,"+str(UMBRALCPU)+",LT,0,cargaCPU,IF",
                         "CDEF:umbral=cargaCPU,"+str(UMBRALCPUMED)+",LT,0,cargaCPU,IF",
@@ -82,9 +82,9 @@ def graficarCPU(agente: Agente):
         ultimo_valor=float(ret['print[0]'])
         #print('Último valor '+ str(ultimo_valor))
         if (ultimo_valor>UMBRALCPU and ENVIO[0]):
-            print('El CPU del agente '+agente.ip+' se está quemando, corre!!! D=')
+            print('El CPU '+str(n)+' del agente '+agente.ip+' se está quemando, corre!!! D=')
             ENVIO[0] = False
-            #send_alert_attached("Sobrepasa Umbral línea base CPU", "CPU.png")
+            #send_alert_attached("Sobrepasa Umbral línea base CPU", "CPU"+str(n)+".png")
     except Exception as e:
         print('Error al momento de graficar CPU: '+ str(e))
 
