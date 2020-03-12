@@ -52,19 +52,8 @@ def graficar(host: str, t:int):
     except Exception as e:
         print('Super EFE ', e)
 
-RAMTOTAL = '1.3.6.1.4.1.2021.4.5.0'
-RAMLIBRE = '1.3.6.1.4.1.2021.4.15.0'
-RAMDISQUEUSADA = '1.3.6.1.4.1.2021.4.6.0'
+OID = '1.3.6.1.2.1.25.2.3.1.6'
 
 #Sección de pruebas rápidas ;D 
-# aux = consultaSNMP('grupo4cv5', 'localhost', RAMLIBRE, 161)
-# aux2 = consultaSNMP('grupo4cv5', 'localhost', RAMTOTAL, 161)
-# aux2 = float(aux2)/1048576
-# aux2 = round(aux2, 3)
-# print('Ram TOTAL: '+ str(aux))
-# dif = aux2 - float(aux)/1048576
-# print('Ram usada: '+ str(dif))
-# porc = (dif*100)/aux2
-# porc = round(porc, 2)
-# print('Porcentaje usado: '+ str(porc))
-
+#aux = consultaSNMP('grupo4cv5', 'localhost', OID, 161)
+#print('Valor: '+ str(float(aux)/1048576))

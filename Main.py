@@ -82,6 +82,8 @@ def agregar():
     crearBDRRD(age, 'CPU')
     #BD para la RAM
     crearBDRRD(age, 'RAM')
+    #BD para la HDD
+    crearBDRRD(age, 'HDD')
     #Registrar agente
     agentes.append(age)
     #Persistencia

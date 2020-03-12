@@ -13,6 +13,8 @@ import rrdtool
 RAMTOTAL = '1.3.6.1.4.1.2021.4.5.0'
 RAMLIBRE = '1.3.6.1.4.1.2021.4.15.0'
 RAMDISQUEUSADA = '1.3.6.1.4.1.2021.4.6.0'
+DISCOUSADO = '1.3.6.1.2.1.25.2.3.1.6.36'
+DISCOTOTAL = '1.3.6.1.2.1.25.2.3.1.5.36'
 
 def porcentajeRAMUsada(t:int, l:int) -> float:
     """A partir de la RAM total y la RAM libre (kb), obtiene 
@@ -22,6 +24,8 @@ def porcentajeRAMUsada(t:int, l:int) -> float:
     dif = t - (l/1048576) #Convertir a GB
     return round((dif*100)/t, 2) #Porcentaje de float con 2 decimales
 
+def porcentaje(t:int, l:int):
+    return round((l*100)/t, 2)
 
 
 def actualizar(clase):
@@ -55,15 +59,24 @@ def actualizar(clase):
             rf.graficarCPU(clase)
 
             #Monitorear RAM
+            
             TOTAL_RAM = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))
             RAM_libre = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMLIBRE, clase.port))
-
             ram = porcentajeRAMUsada(TOTAL_RAM, RAM_libre)
-
             ram = "N:" + str(ram)
             #print (ram)
             rrdtool.update(RUTARRD+clase.ip+ "RAM"+".rrd", ram)
             rf.graficarRAM(clase)
+
+            #Monitorear HDD
+            #Monitorear RAM
+            TOTAL_HDD = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))
+            HDD_libre = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMLIBRE, clase.port))
+            hdd = porcentaje(TOTAL_HDD, HDD_libre)
+            hdd = "N:" + str(hdd)
+            #print (hdd)
+            rrdtool.update(RUTARRD+clase.ip+ "HDD"+".rrd", hdd)
+            rf.graficarHDD(clase)
             
             #rrdtool.dump(RUTARRD+clase.ip+ "CPU"+".rrd",'trend.xml')
 
