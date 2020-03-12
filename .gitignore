@@ -26,3 +26,5 @@ Graficas/deteccion.png
 RRDs/CPUHola.rrd
 RRDs/localhostCPU.rrd
 __pycache__/RRDTFunct.cpython-35.pyc
+Graficas/trend.png
+__pycache__/Notify.cpython-35.pyc

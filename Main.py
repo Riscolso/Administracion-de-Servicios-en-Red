@@ -1,6 +1,7 @@
 #!Python3
 """
-Practica 1
+Práctica de Administración de Servicios en Red
+TODO: Cambiar color a las gráficas xD
 TODO: Organizar los archivos en carpetas
 TODO: Mover las funciones de RRDTOOL al archivo RRDFunct
 TODO: Parar hilos al borrar agente

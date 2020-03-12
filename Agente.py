@@ -7,9 +7,12 @@ from time import sleep
 from time import time
 from PDF import crearPDF
 from RRDTFunct import RUTARRD
+import RRDTFunct as rf
 import rrdtool
 #Para CPU
 #snmpwalk -v2c -c grupo4cv5 localhost 1.3.6.1.2.1.25.3.3.1.2
+
+
 
 def actualizar(clase):
     """Función que hace de hilo, encargado de obtener el valor de las tramas unicast
@@ -39,6 +42,7 @@ def actualizar(clase):
             valorcpu = "N:" + str(carga_CPU)
             print (valorcpu)
             rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
+            rf.graficar(clase)
             #rrdtool.dump(RUTARRD+clase.ip+ "CPU"+".rrd",'trend.xml')
 
             sleep(clase.actu)
