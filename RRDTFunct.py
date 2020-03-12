@@ -29,8 +29,9 @@ def crearBDRRDCPU(agente: Agente):
                             "--step",'60',
                             "DS:CPUload:GAUGE:600:U:U",
                             #"DS:RAMload:GAUGE:601:U:U",
-                            "RRA:AVERAGE:0.5:1:24",
-                            #"RRA:AVERAGE:0.5:1:24")
+                            "RRA:AVERAGE:0.5:1:24"
+                            #"RRA:AVERAGE:0.5:1:24"
+                            )
     except Exception as e:
         print('Error al crear la BD RRDTool: ' + str(e))
         return None
