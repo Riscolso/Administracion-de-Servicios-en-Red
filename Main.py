@@ -2,6 +2,7 @@
 """
 Práctica de Administración de Servicios en Red
 TODO: Cambiar color a las gráficas xD
+TODO: Usar variables CPU RAM Y HDD en la clase Agente
 TODO: Organizar los archivos en carpetas
 TODO: Mover las funciones de RRDTOOL al archivo RRDFunct
 TODO: Parar hilos al borrar agente
@@ -15,7 +16,7 @@ TODO: Qué hacer si un agente se caé a media moniterización
 """
 from typing import List, Generic, Dict, Any
 from Agente import Agente
-from RRDTFunct import crearBDRRDCPU
+from RRDTFunct import crearBDRRD
 from time import sleep
 import threading
 import os
@@ -78,7 +79,9 @@ def agregar():
     #Crear rrd para empezar a monitorear
     age.crearRRDTOOL()
     #BD para los CPU
-    crearBDRRDCPU(age)
+    crearBDRRD(age, 'CPU')
+    #BD para la RAM
+    crearBDRRD(age, 'RAM')
     #Registrar agente
     agentes.append(age)
     #Persistencia

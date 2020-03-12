@@ -9,8 +9,18 @@ from PDF import crearPDF
 from RRDTFunct import RUTARRD
 import RRDTFunct as rf
 import rrdtool
-#Para CPU
-#snmpwalk -v2c -c grupo4cv5 localhost 1.3.6.1.2.1.25.3.3.1.2
+
+RAMTOTAL = '1.3.6.1.4.1.2021.4.5.0'
+RAMLIBRE = '1.3.6.1.4.1.2021.4.15.0'
+RAMDISQUEUSADA = '1.3.6.1.4.1.2021.4.6.0'
+
+def porcentajeRAMUsada(t:int, l:int) -> float:
+    """A partir de la RAM total y la RAM libre (kb), obtiene 
+    el porcentaje usado"""
+    t = t/1048576 #convertir a GB
+    #t = round(t, 3) 
+    dif = t - (l/1048576) #Convertir a GB
+    return round((dif*100)/t, 2) #Porcentaje de float con 2 decimales
 
 
 
@@ -40,9 +50,21 @@ def actualizar(clase):
             #Monitorear el CPU
             carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.25.3.3.1.2.196608', clase.port))
             valorcpu = "N:" + str(carga_CPU)
-            print (valorcpu)
+            #print (valorcpu)
             rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
-            rf.graficar(clase)
+            rf.graficarCPU(clase)
+
+            #Monitorear RAM
+            TOTAL_RAM = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))
+            RAM_libre = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMLIBRE, clase.port))
+
+            ram = porcentajeRAMUsada(TOTAL_RAM, RAM_libre)
+
+            ram = "N:" + str(ram)
+            #print (ram)
+            rrdtool.update(RUTARRD+clase.ip+ "RAM"+".rrd", ram)
+            rf.graficarRAM(clase)
+            
             #rrdtool.dump(RUTARRD+clase.ip+ "CPU"+".rrd",'trend.xml')
 
             sleep(clase.actu)

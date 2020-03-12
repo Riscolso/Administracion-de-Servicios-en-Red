@@ -13,7 +13,7 @@ mailreceip = "khort93@gmail.com"
 mailserver = 'smtp.gmail.com: 587'
 password = 'Ui72EGsPpxJM7LH'
 
-def send_alert_attached(subject):
+def send_alert_attached(subject: str, imagen:str):
     """ Will send e-mail, attaching png
     files in the flist.
     """
@@ -23,7 +23,7 @@ def send_alert_attached(subject):
     msg['To'] = mailreceip
     m = 'Estimado usuario, su computadora se está quemando.\nLe recomendamos usar el extintor mas cercano y correr por su vida.'
     msg.attach(MIMEText(m, _charset='utf-8'))
-    fp = open(RUTAGRA+'deteccion.png', 'rb')
+    fp = open(RUTAGRA+imagen, 'rb')
     img = MIMEImage(fp.read())
     fp.close()
     msg.attach(img)
