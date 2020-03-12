@@ -1,8 +1,12 @@
+"""
+TODO: Descomentiza todo lo del hilo 'actualizar', que no lo estás usando para esta practica xD
+"""
 import SNMPInfo as snmp
 import threading 
 from time import sleep
 from time import time
 from PDF import crearPDF
+from RRDTFunct import RUTARRD
 import rrdtool
 #Para CPU
 #snmpwalk -v2c -c grupo4cv5 localhost 1.3.6.1.2.1.25.3.3.1.2
@@ -16,6 +20,7 @@ def actualizar(clase):
     Datagramas entregados a usuarios UDP"""
     try:
         while clase.ence:
+            """
             uni = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.2.2.1.11.1', clase.port))
             ips = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.4.3.0', clase.port))
             #Esta depreciado, pero funciona en Windows, no en Linux
@@ -27,11 +32,19 @@ def actualizar(clase):
             valor = "N:" + str(uni) + ':' + str(ips) + ':' + str(icmp) + ':' + str(segs) + ':' + str(udp)
             rrdtool.update(clase.ip+'.rrd', valor)
             #print('Valor:', valor)
-            rrdtool.dump(clase.ip+'.rrd',clase.ip+'.xml')
+            #rrdtool.dump(clase.ip+'.rrd',clase.ip+'.xml')
+            """
+            #Monitorear el CPU
+            carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.25.3.3.1.2.196608', clase.port))
+            valorcpu = "N:" + str(carga_CPU)
+            print (valorcpu)
+            rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
+            #rrdtool.dump(RUTARRD+clase.ip+ "CPU"+".rrd",'trend.xml')
+
             sleep(clase.actu)
     except Exception as e:
         print('El hilo del agente '+ clase.ip +' acaba de estirar la pata =(')
-        print(e)
+        print(str(e))
 
 
 class Agente():

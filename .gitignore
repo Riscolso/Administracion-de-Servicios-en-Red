@@ -22,3 +22,7 @@ __pycache__/SNMPInfo.cpython-35.pyc
 __pycache__/PDF.cpython-36.pyc
 __pycache__/SNMPInfo.cpython-36.pyc
 192.168.100.33.rrd
+Graficas/deteccion.png
+RRDs/CPUHola.rrd
+RRDs/localhostCPU.rrd
+__pycache__/RRDTFunct.cpython-35.pyc

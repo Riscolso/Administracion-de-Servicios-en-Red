@@ -2,8 +2,9 @@
 """
 Practica 1
 TODO: Organizar los archivos en carpetas
+TODO: Mover las funciones de RRDTOOL al archivo RRDFunct
 TODO: Parar hilos al borrar agente
-TODO: Manejo de excepciones.
+TODO: Manejo de excepciones.... O usar None
 TODO: Borrar imagenes
 TODO: Validaciones(Versión SNMP)
 TODO: Verificar que un agente existe antes de agregarlo
@@ -13,6 +14,7 @@ TODO: Qué hacer si un agente se caé a media moniterización
 """
 from typing import List, Generic, Dict, Any
 from Agente import Agente
+from RRDTFunct import crearBDRRDCPU
 from time import sleep
 import threading
 import os
@@ -74,6 +76,8 @@ def agregar():
     age.port = input()
     #Crear rrd para empezar a monitorear
     age.crearRRDTOOL()
+    #BD para los CPU
+    crearBDRRDCPU(age)
     #Registrar agente
     agentes.append(age)
     #Persistencia
@@ -111,7 +115,7 @@ if __name__ == '__main__':
         if agentes == []:
             print('No hay agentes en la lista ')
         else:
-            #Checar que los agentes funcionen y empezarlos a monitorizar si es así.
+            #Checar que los agentes funcionen y empezarlos a monitorizar, sí que sí.
             for agente in agentes:
                 agente.obtenerEstado()
                 agente.monitorear()

@@ -1,11 +1,12 @@
 #!Python3
-"""Clase encargada de todo lo relacionado con SNMP"""
+"""Clase encargada de todo lo relacionado con SNMP
+TODO: Estilizar el manejo de errores de consultaSNMP"""
 from pysnmp.hlapi import *
 from typing import List, Generic, Dict, Any
 import rrdtool
 
 
-def consultaSNMP(comunidad,host,oid, port:int, raw:bool=False):
+def consultaSNMP(comunidad,host,oid, port:int, raw:bool=False) -> str:
     """Hace una consulta SNMP a un agente de la misma red
     En caso de hacer un error, lo imprime y regresa un False
     Si la badera raw está activada, regresa el texto completo sin procesar"""
