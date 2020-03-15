@@ -1,7 +1,7 @@
 #!Python3
 """
 Práctica de Administración de Servicios en Red
-TODO: Arreglar Todo lo de la practica 2 :'v
+TODO: Arreglar Todo lo de la practica 2 :'C
 TODO: Cambiar color a las gráficas xD
 TODO: Usar variables CPU RAM Y HDD en la clase Agente
 TODO: Organizar los archivos en carpetas
