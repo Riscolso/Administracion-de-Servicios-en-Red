@@ -19,6 +19,7 @@ RUTAGRA = 'Graficas/'
 
 #Pa' evitar que se envien muchos mensajes :V
 ENVIO = [True, True, True]
+ENVIO1 = [True, True, True]
 
 
 
@@ -93,8 +94,9 @@ def graficarRAM(agente: Agente):
     Usa la calse de Email para enviar un correo
     en caso de pasar un umbral"""
     global ENVIO
-    UMBRAL_RAM = 10
-    UMBRAL_RAMMED = 9
+    UMBRAL_RAM = 90
+    UMBRAL_RAMMED = 80
+    UMBRAL_RAMBAJ = 70
     ultima_lectura = int(rrdtool.last(RUTARRD+agente.ip+"RAM.rrd"))
     tiempo_final = ultima_lectura
     tiempo_inicial = tiempo_final - 600
@@ -109,6 +111,7 @@ def graficarRAM(agente: Agente):
 
                         "CDEF:umbral1=carga,"+str(UMBRAL_RAM)+",LT,0,carga,IF",
                         "CDEF:umbral=carga,"+str(UMBRAL_RAMMED)+",LT,0,carga,IF",
+                        "CDEF:umbral0=carga,"+str(UMBRAL_RAMBAJ)+",LT,0,carga,IF",
 
 
                         "VDEF:cargaMAX=carga,MAXIMUM",
@@ -118,9 +121,12 @@ def graficarRAM(agente: Agente):
                         "AREA:carga#00FF00:Carga de la RAM",
                         "AREA:umbral#FF9F00:Carga RAM mayor que "+str(UMBRAL_RAM),
 
+                        "AREA:umbral0#0000FF:Carga RAM mayor que "+str(UMBRAL_RAMBAJ),
                         "AREA:umbral#FF9F00:Carga RAM mayor que "+str(UMBRAL_RAMMED),
                         "AREA:umbral1#FF0000:Carga RAM mayor que "+str(UMBRAL_RAM),
+                        
 
+                        "HRULE:"+str(UMBRAL_RAMMED)+"#0000FF:Umbral - medio "+str(UMBRAL_RAMMED),
                         "HRULE:"+str(UMBRAL_RAM)+"#FF0000:Umbral - Oh, no "+str(UMBRAL_RAM),
                         "PRINT:cargaLAST:%6.2lf",
                         "GPRINT:cargaMIN:%6.2lf %SMIN",
@@ -129,10 +135,18 @@ def graficarRAM(agente: Agente):
         #Obtener el último valor de la gráfica.                
         ultimo_valor=float(ret['print[0]'])
         #print('Último valor '+ str(ultimo_valor))
-        if (ultimo_valor>UMBRAL_RAM and ENVIO[1]):
+        if (ultimo_valor>UMBRAL_RAMBAJ and ENVIO1[0]):
             print('La RAM del agente '+agente.ip+' se está quemando, corre!!! D=')
-            ENVIO[1] = False
-            #send_alert_attached("Sobrepasa Umbral línea base RAM", "RAM.png")
+            ENVIO1[0] = False
+            #send_alert_attached("Sobrepasa Umbral Bajo RAM", "RAM.png")
+        if (ultimo_valor>UMBRAL_RAMMED and ENVIO1[1]):
+            print('La RAM del agente '+agente.ip+' se está quemando, corre!!! D=')
+            ENVIO1[1] = False
+            #send_alert_attached("Sobrepasa Umbral Medio de RAM", "RAM.png")
+        if (ultimo_valor>UMBRAL_RAM and ENVIO1[2]):
+            print('La RAM del agente '+agente.ip+' se está quemando, corre!!! D=')
+            ENVIO1[2] = False
+            #send_alert_attached("Sobrepasa Umbral Alto de RAM", "RAM.png")
     except Exception as e:
         print('Error al momento de graficar RAM: '+ str(e))
 

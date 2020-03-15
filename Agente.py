@@ -9,9 +9,11 @@ from PDF import crearPDF
 from RRDTFunct import RUTARRD
 import RRDTFunct as rf
 import rrdtool
-
-RAMTOTAL = '1.3.6.1.4.1.2021.4.5.0'
-RAMLIBRE = '1.3.6.1.4.1.2021.4.15.0'
+#1.3.6.1.2.1.25.2.2.0
+RAMTOTAL = '8.40.1.232 1.3.6.1.2.1.25.2.3.1.5.5.0'
+RAMUSA = '1.3.6.1.2.1.25.2.3.1.6.5.0'
+RAMTOTALLINUX = '1.3.6.1.4.1.2021.4.5.0'
+RAMLIBRELINUX = '1.3.6.1.4.1.2021.4.15.0'
 RAMDISQUEUSADA = '1.3.6.1.4.1.2021.4.6.0'
 DISCOUSADO = '1.3.6.1.2.1.25.2.3.1.6.36'
 DISCOTOTAL = '1.3.6.1.2.1.25.2.3.1.5.36'
@@ -52,7 +54,6 @@ def actualizar(clase):
     global RAMTOTAL, RAMLIBRE, RAMDISQUEUSADA, DISCOUSADO, DISCOTOTAL,CPU
     try:
         while clase.ence:
-            """
             uni = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.2.2.1.11.1', clase.port))
             ips = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.4.3.0', clase.port))
             #Esta depreciado, pero funciona en Windows, no en Linux
@@ -65,25 +66,27 @@ def actualizar(clase):
             rrdtool.update(clase.ip+'.rrd', valor)
             #print('Valor:', valor)
             #rrdtool.dump(clase.ip+'.rrd',clase.ip+'.xml')
-            """
+    
             #Monitorear el CPU
             """carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, CPU[0], clase.port))
             valorcpu = "N:" + str(carga_CPU)
             print (valorcpu)
             rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
             rf.graficarCPU(clase)"""
+            
             for i in range(len(CPU)):
                 temp(clase, i)
             #Monitorear RAM
             
+            
             TOTAL_RAM = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))
-            RAM_libre = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMLIBRE, clase.port))
-            ram = porcentajeRAMUsada(TOTAL_RAM, RAM_libre)
+            RAM_usa = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMUSA, clase.port))
+            ram = porcentaje(TOTAL_RAM, RAM_usa)
             ram = "N:" + str(ram)
             #print (ram)
             rrdtool.update(RUTARRD+clase.ip+ "RAM"+".rrd", ram)
             rf.graficarRAM(clase)
-
+            
             #Monitorear HDD
             #Monitorear RAM
             TOTAL_HDD = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))
@@ -95,7 +98,7 @@ def actualizar(clase):
             rf.graficarHDD(clase)
             
             #rrdtool.dump(RUTARRD+clase.ip+ "CPU"+".rrd",'trend.xml')
-
+            
             sleep(clase.actu)
     except Exception as e:
         print('El hilo del agente '+ clase.ip +' acaba de estirar la pata =(')

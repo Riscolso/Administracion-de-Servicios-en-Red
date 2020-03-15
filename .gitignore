@@ -41,3 +41,5 @@ RRDs/localhostCPU0.rrd
 RRDs/localhostCPU1.rrd
 RRDs/localhostCPU2.rrd
 RRDs/localhostCPU3.rrd
+__pycache__/Notify.cpython-36.pyc
+__pycache__/RRDTFunct.cpython-36.pyc
