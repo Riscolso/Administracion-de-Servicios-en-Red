@@ -10,7 +10,6 @@ TODO: Parar hilos al borrar agente
 TODO: Manejo de excepciones.... O usar None
 TODO: Borrar imagenes
 TODO: Validaciones(Versión SNMP)
-TODO: Verificar que un agente existe antes de agregarlo
 TODO: Mostrar la interfaces bonito =D 
 TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicamente
 TODO: Qué hacer si un agente se caé a media moniterización
