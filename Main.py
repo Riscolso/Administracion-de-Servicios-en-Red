@@ -1,6 +1,7 @@
 #!Python3
 """
 Práctica de Administración de Servicios en Red
+TODO: Volver la variable de contraseña, privada xD
 TODO: Arreglar Todo lo de la practica 2 :'C
 TODO: Cambiar color a las gráficas xD
 TODO: Usar variables CPU RAM Y HDD en la clase Agente
