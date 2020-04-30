@@ -13,7 +13,8 @@ TODO: Borrar imagenes
 TODO: Validaciones(Versión SNMP)
 TODO: Mostrar la interfaces bonito =D 
 TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicamente
-TODO: Qué hacer si un agente se caé a media moniterización
+TODO: Qué hacer si un agente se caé a media moniterización?
+TODO: Que la aplicación muestre las interfaces después de seleccionar la opción 5
 """
 from typing import List, Generic, Dict, Any
 from Agente import Agente
@@ -83,6 +84,7 @@ def agregar():
     #Crear rrd para empezar a monitorear
     age.crearRRDTOOL()
     #BD para los CPU
+    """
     crearBDRRD(age, 'CPU0')
     #BD para los CPU
     crearBDRRD(age, 'CPU1')
@@ -95,6 +97,7 @@ def agregar():
     crearBDRRD(age, 'RAM')
     #BD para la HDD
     crearBDRRD(age, 'HDD')
+    """
     #Registrar agente
     agentes.append(age)
     #Persistencia
@@ -128,6 +131,17 @@ def eliminar(indi: int):
             agentes.pop(indi)
             salvarEstructura(agentes, 'agentes')
 
+def menuMonitorear():
+    """Muestra menú de monitoreo así como ejecuta la opción ingresada"""
+    print('Seleccione el agente que desea monitorear: ')
+    ag = input()
+    print('¿Por cuál tipo de atributo quiere monitorear?')
+    print('1.-Dirección IP\
+        2.-Protocolo de Transporte TCP/UDP/SCPT\
+            3.-Número de puerto')
+    op = input()
+    if(op == '1'):
+        print('valor')
 
 
 if __name__ == '__main__':
@@ -145,7 +159,7 @@ if __name__ == '__main__':
             for agente in agentes:
                 agente.obtenerEstado()
                 agente.monitorear()
-        print('1.-Agregar Dispositivo\n2.-Eliminar Dispositivo\n3.-Resumen\n4.-Reportes\n5.-Salir')
+        print('1.-Agregar Dispositivo\n2.-Eliminar Dispositivo\n3.-Resumen\n4.-Reportes\n5.-Contabilidad de Red\n6-Salir')
         op = input()
         if(op == '1'):
             agregar()
@@ -162,6 +176,8 @@ if __name__ == '__main__':
             agentes[int(ag)].crearReporte(int(input()))
             input()
         elif(op == '5'):
+            monitorear()
+        elif(op == '6'):
             print('Cerrando conexiones...')
             #Aplicando la Ñera por que no hay método para matar hilos eggsDe
             for agente in agentes:

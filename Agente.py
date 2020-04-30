@@ -9,6 +9,12 @@ from PDF import crearPDF
 from RRDTFunct import RUTARRD
 import RRDTFunct as rf
 import rrdtool
+
+#Practica 3
+TRAMASXIP = ""
+ANCHODEBANDA = "1.3.6.1.2.1.2.2.1.5"
+
+
 #1.3.6.1.2.1.25.2.2.0
 RAMTOTAL = '8.40.1.232 1.3.6.1.2.1.25.2.3.1.5.5.0'
 RAMUSA = '1.3.6.1.2.1.25.2.3.1.6.5.0'
@@ -258,3 +264,12 @@ class Agente():
         snmp.graficar(self.ip, t)
         crearPDF(self)
         print('Busca en la carpeta el PDF ;D ')
+    
+    def contabilizar(self, opcion: int, puerto: int = 0):
+        """Realiza el monitoreo de tramas con base a una opción
+        1.-Dirección IP 
+        2.-Protocolo de transporte
+        3.-Número de puerto
+        En caso de ser No.Puerto, especificarlo"""
+        if opcion == 1:
+            num = snmp.consultaSNMP(self.comun, self.ip, TRAMASXIP, self.port)

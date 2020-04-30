@@ -84,5 +84,5 @@ OID = '1.3.6.1.2.1.25.2.3.1.6'
 #    print(aux)
 
 #Sección de pruebas rápidas ;D 
-#aux = consultaSNMP('grupo4cv5', 'localhost', OID, 161)
-#print('Valor: '+ str(float(aux)/1048576))
+aux = consultaSNMP('grupo4cv5', 'localhost', OID, 161)
+print('Valor: ', aux)
