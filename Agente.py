@@ -51,7 +51,7 @@ def actualizar(clase):
     Mensajes ICMP echo que ha enviado el agente
     Segmentos recibidos, incluyendo los que se han recibido con errores.
     Datagramas entregados a usuarios UDP"""
-    global RAMTOTAL, RAMLIBRE, RAMDISQUEUSADA, DISCOUSADO, DISCOTOTAL,CPU
+    global RAMTOTAL, RAMLIBRELINUX, RAMDISQUEUSADA, DISCOUSADO, DISCOTOTAL,CPU
     try:
         while clase.ence:
             uni = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.2.2.1.11.1', clase.port))
@@ -66,13 +66,15 @@ def actualizar(clase):
             rrdtool.update(clase.ip+'.rrd', valor)
             #print('Valor:', valor)
             #rrdtool.dump(clase.ip+'.rrd',clase.ip+'.xml')
-    
+            
+            #Toda la siguiente parte debe ser arreglada, por que nunca funcó para Windows jajajaja ay :'C 
+            """
             #Monitorear el CPU
-            """carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, CPU[0], clase.port))
-            valorcpu = "N:" + str(carga_CPU)
-            print (valorcpu)
-            rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
-            rf.graficarCPU(clase)"""
+            # carga_CPU = int(snmp.consultaSNMP(clase.comun, clase.ip, CPU[0], clase.port))
+            # valorcpu = "N:" + str(carga_CPU)
+            # print (valorcpu)
+            # rrdtool.update(RUTARRD+clase.ip+ "CPU"+".rrd", valorcpu)
+            # rf.graficarCPU(clase)
             
             for i in range(len(CPU)):
                 temp(clase, i)
@@ -90,7 +92,7 @@ def actualizar(clase):
             #Monitorear HDD
             #Monitorear RAM
             TOTAL_HDD = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMTOTAL, clase.port))
-            HDD_libre = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMLIBRE, clase.port))
+            HDD_libre = int(snmp.consultaSNMP(clase.comun, clase.ip, RAMLIBRELINUX, clase.port))
             hdd = porcentaje(TOTAL_HDD, HDD_libre)
             hdd = "N:" + str(hdd)
             #print (hdd)
@@ -98,7 +100,7 @@ def actualizar(clase):
             rf.graficarHDD(clase)
             
             #rrdtool.dump(RUTARRD+clase.ip+ "CPU"+".rrd",'trend.xml')
-            
+            """
             sleep(clase.actu)
     except Exception as e:
         print('El hilo del agente '+ clase.ip +' acaba de estirar la pata =(')

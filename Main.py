@@ -107,22 +107,24 @@ def eliminar(indi: int):
     print('Seguro? s/n')
     o = input()
     if (o =='s' or o == 'S'):
-        #En caso de ser el único agente que quedaba.. Forever Alone 
+        #Apagar el hilo de monitoreo
+        agentes[indi].ence = False
+        sleep(agentes[indi].actu) #para que le le tiempo al hilo a detenerse... Ya sé que es medio ñero apagarlo así
+        #Pero es la solución más rápida sin hacer tanta cosa de sincronización
+        #Borar los archivos relacionados con el agente
+        try:
+            remove(agentes[indi].ip+".rrd")
+            remove(agentes[indi].ip+".xml")
+        except Exception as ex:
+            print("Error con los archivos rrd y/o xml", ex)
+        #En caso de que sea el último agente... F
         if len(agentes) == 1:
+            agentes = []
             try:
                 remove('agentes.plk')
             except Exception as ex:
                 print("El archivo de agentes ya había sido eliminado antes", ex)
-            agentes = []
-        else:  
-            agentes[indi].ence = False
-            sleep(agentes[indi].actu) #para que le le tiempo al hilo a detenerse... Ya sé que es medio ñero apagarlo así
-            #Pero es la solución más rápida sin hacer tanta cosa de sincronización
-            try:
-                remove(agentes[indi].ip+".rrd")
-                remove(agentes[indi].ip+".xml")
-            except Exception as ex:
-                print("Error con los archivos rrd y/o xml", ex)
+        else: 
             agentes.pop(indi)
             salvarEstructura(agentes, 'agentes')
 
