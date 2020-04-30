@@ -22,6 +22,9 @@ from time import sleep
 import threading
 import os
 
+#Lista de agentes que se monitorean
+agentes = []
+
 
 def limpiar():
     """Limpia la consola, Windows/Linux"""
@@ -100,25 +103,32 @@ def agregar():
 def eliminar(indi: int):
     """Elimina un elemento de la lista de agentes dado un índice"""
     from os import remove
+    global agentes
     print('Seguro? s/n')
     o = input()
     if (o =='s' or o == 'S'):
         #En caso de ser el único agente que quedaba.. Forever Alone 
-        if agentes == []: 
-            remove('agentes.plk')
+        if len(agentes) == 1:
+            try:
+                remove('agentes.plk')
+            except Exception as ex:
+                print("El archivo de agentes ya había sido eliminado antes", ex)
+            agentes = []
         else:  
-            agentes[-1].ence = False
-            sleep(agentes[-1].actu) #para que le le tiempo al hilo a detenerse... Ya sé que es medio ñero apagarlo así
-            #Pero es la solución más rápida sin hacer tanta cosa de sincronización 
-            remove(agentes[-1].ip+".rrd")
-            remove(agentes[-1].ip+".xml")
+            agentes[indi].ence = False
+            sleep(agentes[indi].actu) #para que le le tiempo al hilo a detenerse... Ya sé que es medio ñero apagarlo así
+            #Pero es la solución más rápida sin hacer tanta cosa de sincronización
+            try:
+                remove(agentes[indi].ip+".rrd")
+                remove(agentes[indi].ip+".xml")
+            except Exception as ex:
+                print("Error con los archivos rrd y/o xml", ex)
             agentes.pop(indi)
             salvarEstructura(agentes, 'agentes')
 
 
 
 if __name__ == '__main__':
-    #Lista de agentes que se monitorean
     agentes = []
     try:
         agentes = cargarEstructura('agentes')
