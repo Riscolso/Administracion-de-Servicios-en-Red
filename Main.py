@@ -14,8 +14,8 @@ TODO: Validaciones(Versión SNMP)
 TODO: Mostrar la interfaces bonito =D 
 TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicamente
 TODO: Qué hacer si un agente se caé a media moniterización?
-TODO: Que la aplicación muestre las interfaces después de seleccionar la opción 5
 TODO: Pasar la función de actualizar al archivo de hilo
+TODO: Usar inyección de dependencias para organizar el código, que se está volviendo muy desorganizado xD
 """
 from typing import List, Generic, Dict, Any
 import Agente
@@ -52,8 +52,6 @@ def cargarEstructura(fname):
     f.close()
     return est
 
-                
-
 def resumen():
     """Muestra un resumen de la monitarización"""
     print('Número de agentes: ',  len(agentes))
@@ -68,7 +66,6 @@ def resumen():
         print('\n')
         i+=1
     
-
 def agregar():
     """Agrega un agente al monitoreo"""
     limpiar()
@@ -132,6 +129,15 @@ def eliminar(indi: int):
             agentes.pop(indi)
             salvarEstructura(agentes, 'agentes')
 
+def mostrarAgentes():
+    """Muestra los agentes almacenados"""
+    print("\tAgentes Disponibles\n")
+    i=0
+    for a in agentes:
+        print(str(i)+".-"+a.ip)
+        i+=1
+    print("")
+
 def menuMonitorear():
     """Muestra menú de monitoreo así como ejecuta la opción ingresada"""
     print('Seleccione el agente que desea monitorear: ')
@@ -165,17 +171,22 @@ if __name__ == '__main__':
             agregar()
         elif(op == '2'):
             print('Ingresa el número del agente que quieres fusilar')
+            mostrarAgentes()
             eliminar(int(input()))
         elif(op == '3'):
             resumen()
             input()
         elif(op == '4'):
+            limpiar()
+            mostrarAgentes()
             print('Ingresa el número del agente que quieres un reporte :)')
             ag = input()
             print('Número de minutos hacia atrás a partir de ahora?:')
             agentes[int(ag)].crearReporte(int(input()))
             input()
         elif(op == '5'):
+            limpiar()
+            mostrarAgentes()
             menuMonitorear()
         elif(op == '6'):
             print('Cerrando conexiones...')

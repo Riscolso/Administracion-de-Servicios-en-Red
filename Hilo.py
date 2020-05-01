@@ -26,12 +26,12 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
         try:
             entrada = 0
             salida = 0
-            i=0
+            #i=0
             op = None
             while op!='':
                 limpiar()
-                print("\t\t\tContabilidad de la red ", i)
-                i+=1
+                print("\t\t\tContabilidad de la red ")
+                #i+=1
                 print("\t\t\tProtocolo de transporte")
                 print("Presiona 'Enter' para salir...")
                 print("Tramas TCP")
