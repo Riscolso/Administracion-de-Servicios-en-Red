@@ -36,7 +36,7 @@ def consultaSNMP(comunidad,host,oid, port:int, raw:bool=False) -> str:
         #print('F')
         return '' #Para cuando hay error
 
-def snmpwalk(comunidad,host,oid, port:int):
+def snmpwalk(comunidad,host,oid, port:int, raw:bool=False):
     try:
         valor = []
         for (errorIndication,
@@ -59,10 +59,13 @@ def snmpwalk(comunidad,host,oid, port:int):
                 for varBind in varBinds:
                     aux = ' = '.join([x.prettyPrint() for x in varBind])
                     #print(aux)
-                    valor+=[aux]
-
+                    if raw:
+                        valor+=[aux]
+                    else:
+                        valor += [aux.split(' ')[-1]]
         return valor
-    except:
+    except Exception as ex:
+        print('Error en SNMPWalk', ex)
         return None
 
     
@@ -81,7 +84,7 @@ def graficar(host: str, t:int):
     except Exception as e:
         print('Super EFE ', e)
 
-OID = '1.3.6.1.2.1.104'
+OID = '1.3.6.1.2.1.6.13.1.4'
 
 
 #Sección de pruebas rápidas ;D
@@ -90,5 +93,5 @@ OID = '1.3.6.1.2.1.104'
 #if aux is not None:
 #    print(aux)
 
-#aux = consultaSNMP('grupo4cv5', 'localhost', OID, 161)
+#aux = consultaSNMP('grupo4cv5', '192.168.100.33', OID, 161)
 #print('Valor: ', aux)

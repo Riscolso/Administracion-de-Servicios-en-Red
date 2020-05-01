@@ -19,6 +19,8 @@ OIDs={
     "udpInDatagrams" : "1.3.6.1.2.1.7.1.0",
     "udpOutDatagrams" : "1.3.6.1.2.1.7.4.0",
     "SCTP" : "1.3.6.1.2.1.104",
+    "tcpConnectionEntry" : "1.3.6.1.2.1.6.19.1",
+    "tcpConnTable": "1.3.6.1.2.1.6.13.1.4",
     "ANCHODEBANDA" : "1.3.6.1.2.1.2.2.1.5"
 }
 
