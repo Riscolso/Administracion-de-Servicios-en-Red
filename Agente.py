@@ -1,5 +1,7 @@
+"""Archivo para la clase Agente y sus funcinalidades"""
 """
 TODO: Descomentiza todo lo del hilo 'actualizar', que no lo estás usando para esta practica xD
+TODO: Aguas, checa monitorizar() creo que genera multiples hilos jajajaja
 """
 import SNMPInfo as snmp
 import threading 
@@ -21,6 +23,7 @@ OIDs={
     "SCTP" : "1.3.6.1.2.1.104",
     "tcpConnectionEntry" : "1.3.6.1.2.1.6.19.1",
     "tcpConnTable": "1.3.6.1.2.1.6.13.1.4",
+    "udpLocalPort" : "1.3.6.1.2.1.7.5.1.2",
     "ANCHODEBANDA" : "1.3.6.1.2.1.2.2.1.5"
 }
 

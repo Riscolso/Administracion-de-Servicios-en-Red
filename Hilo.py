@@ -41,7 +41,6 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
                         aux += '      ' 
                     print(aux+'\t\t\t\t\t'+str(direcciones.count(direccion)))
                 print("\nPresiona 'Enter' para salir...")
-                direcciones = []
                 direcciones = snmp.snmpwalk(agente.comun, agente.ip, OIDs["tcpConnTable"], agente.port)
                 op = timed_input("", timeout=0.5)
                 #sleep(0.2)
@@ -95,4 +94,23 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
             print(str(e))
 
     else: 
-        print('Opción 3')
+        try:
+            puertos = []
+            #i=0
+            op = None
+            while op!='':
+                limpiar()
+                print("\t\t\tContabilidad de la red ")
+                #i+=1
+                print("\t\t\tNúmeros de puertos\n")
+                print("Número de puerto \t\t\tCantidad de comunicaciones actuales hacia el puerto")
+                for puerto in set(puertos):
+                    #Este if es solo para dar estílo xD
+                    print(puerto+'\t\t\t\t\t'+str(puertos.count(puerto)))
+                print("\nPresiona 'Enter' para salir...")
+                puertos = snmp.snmpwalk(agente.comun, agente.ip, OIDs["udpLocalPort"], agente.port)
+                op = timed_input("", timeout=0.5)
+                #sleep(0.2)
+        except Exception as e:
+            print('El hilo de '+ agente.ip +' se nos adelantó')
+            print(str(e))

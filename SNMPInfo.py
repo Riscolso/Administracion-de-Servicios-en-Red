@@ -84,7 +84,7 @@ def graficar(host: str, t:int):
     except Exception as e:
         print('Super EFE ', e)
 
-OID = '1.3.6.1.2.1.6.13.1.4'
+OID = '1.3.6.1.2.1.7.5.1.2'
 
 
 #Sección de pruebas rápidas ;D
