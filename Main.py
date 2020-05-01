@@ -15,9 +15,10 @@ TODO: Mostrar la interfaces bonito =D
 TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicamente
 TODO: Qué hacer si un agente se caé a media moniterización?
 TODO: Que la aplicación muestre las interfaces después de seleccionar la opción 5
+TODO: Pasar la función de actualizar al archivo de hilo
 """
 from typing import List, Generic, Dict, Any
-from Agente import Agente
+import Agente
 from RRDTFunct import crearBDRRD
 from time import sleep
 import threading
@@ -72,7 +73,7 @@ def agregar():
     """Agrega un agente al monitoreo"""
     limpiar()
     print('\t\tAgregar dispositivo')
-    age = Agente()
+    age = Agente.Agente()
     print('Inserte el nombre del host o dirección IP: ')
     age.ip = input()
     print('Inserte la versión de SNMP; 1 o 2: ')
@@ -140,8 +141,7 @@ def menuMonitorear():
         2.-Protocolo de Transporte TCP/UDP/SCPT\
             3.-Número de puerto')
     op = input()
-    if(op == '1'):
-        print('valor')
+    agentes[int(ag)].contabilizar(int(op))
 
 
 if __name__ == '__main__':
@@ -159,7 +159,7 @@ if __name__ == '__main__':
             for agente in agentes:
                 agente.obtenerEstado()
                 agente.monitorear()
-        print('1.-Agregar Dispositivo\n2.-Eliminar Dispositivo\n3.-Resumen\n4.-Reportes\n5.-Contabilidad de Red\n6-Salir')
+        print('1.-Agregar Dispositivo\n2.-Eliminar Dispositivo\n3.-Resumen\n4.-Reportes\n5.-Contabilidad de Red\n6.-Salir')
         op = input()
         if(op == '1'):
             agregar()
@@ -176,7 +176,7 @@ if __name__ == '__main__':
             agentes[int(ag)].crearReporte(int(input()))
             input()
         elif(op == '5'):
-            monitorear()
+            menuMonitorear()
         elif(op == '6'):
             print('Cerrando conexiones...')
             #Aplicando la Ñera por que no hay método para matar hilos eggsDe

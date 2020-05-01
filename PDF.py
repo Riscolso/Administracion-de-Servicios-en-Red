@@ -1,6 +1,7 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 import Agente
+
 def crearPDF(agente: Agente):
     """Recibe una clase de tipo agente y genera un reporte pdf con la
     información de esta"""

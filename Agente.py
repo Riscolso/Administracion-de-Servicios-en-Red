@@ -9,11 +9,14 @@ from PDF import crearPDF
 from RRDTFunct import RUTARRD
 import RRDTFunct as rf
 import rrdtool
+from Hilo import hiloContabilizar
 
 #Practica 3
-TRAMASXIP = ""
-ANCHODEBANDA = "1.3.6.1.2.1.2.2.1.5"
-
+OIDs={
+    "TCPIN" : "1.3.6.1.2.1.6.10.0",
+    "TCPOUT" : "1.3.6.1.2.1.6.11.0",
+    "ANCHODEBANDA" : "1.3.6.1.2.1.2.2.1.5"
+}
 
 #1.3.6.1.2.1.25.2.2.0
 RAMTOTAL = '8.40.1.232 1.3.6.1.2.1.25.2.3.1.5.5.0'
@@ -111,8 +114,7 @@ def actualizar(clase):
     except Exception as e:
         print('El hilo del agente '+ clase.ip +' acaba de estirar la pata =(')
         print(str(e))
-
-
+        
 class Agente():
     """Contiene información relacionada con un agrente así como métodos para conseguir la información
     SNMP a partir de una IP, versión, comunidad y puerto"""
@@ -271,5 +273,9 @@ class Agente():
         2.-Protocolo de transporte
         3.-Número de puerto
         En caso de ser No.Puerto, especificarlo"""
-        if opcion == 1:
-            num = snmp.consultaSNMP(self.comun, self.ip, TRAMASXIP, self.port)
+        global OIDs
+        if self.edo == 'up': #Chanzón y el agente esta caído, y pues no queremos eso
+            h = threading.Thread(args = (self, opcion, OIDs), target=hiloContabilizar)
+            h.start()
+            #Esperar hasta que el hilo termine
+            h.join()
