@@ -12,9 +12,12 @@ import rrdtool
 from Hilo import hiloContabilizar
 
 #Practica 3
+#cambiar el nombre a TCPIN/OUT
 OIDs={
     "TCPIN" : "1.3.6.1.2.1.6.10.0",
     "TCPOUT" : "1.3.6.1.2.1.6.11.0",
+    "udpInDatagrams" : "1.3.6.1.2.1.7.1.0",
+    "udpOutDatagrams" : "1.3.6.1.2.1.7.4.0",
     "ANCHODEBANDA" : "1.3.6.1.2.1.2.2.1.5"
 }
 

@@ -24,8 +24,10 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
         print('Opción 1')
     elif opcion == 2:
         try:
-            entrada = 0
-            salida = 0
+            entradaTCP = 0
+            salidaTCP = 0
+            entradaUDP = 0
+            salidaUDP = 0
             #i=0
             op = None
             while op!='':
@@ -36,12 +38,19 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
                 print("Presiona 'Enter' para salir...")
                 print("Tramas TCP")
                 print("\tEntrada\t\t\t\t\t" 
-                    +str(entrada))
+                    +str(entradaTCP))
                 print("\tSalida\t\t\t\t\t"
-                    +str(salida))
+                    +str(salidaTCP))
+                print("Tramas UDP")
+                print("\tEntrada\t\t\t\t\t" 
+                    +str(entradaUDP))
+                print("\tSalida\t\t\t\t\t"
+                    +str(salidaUDP))
+                entradaTCP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["TCPIN"], agente.port)
+                salidaTCP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["TCPOUT"], agente.port)
+                entradaUDP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["udpInDatagrams"], agente.port)
+                salidaUDP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["udpOutDatagrams"], agente.port)
                 op = timed_input("", timeout=0.4)
-                entrada = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["TCPIN"], agente.port)
-                salida = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["TCPOUT"], agente.port)
                 #sleep(0.5)
         except Exception as e:
             print('El hilo de '+ agente.ip +' se nos adelantó')
