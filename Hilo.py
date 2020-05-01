@@ -28,6 +28,8 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
             salidaTCP = 0
             entradaUDP = 0
             salidaUDP = 0
+            entradasSCTP = 0
+            salidaSCTP = 0
             #i=0
             op = None
             while op!='':
@@ -46,10 +48,19 @@ def hiloContabilizar(agente: Agente, opcion: int, OIDs: Dict[str, str]):
                     +str(entradaUDP))
                 print("\tSalida\t\t\t\t\t"
                     +str(salidaUDP))
+                print("Tramas SCTP")
+                print("\tEntrada\t\t\t\t\t" 
+                    +str(entradasSCTP))
+                print("\tSalida\t\t\t\t\t"
+                    +str(salidaSCTP))
                 entradaTCP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["TCPIN"], agente.port)
                 salidaTCP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["TCPOUT"], agente.port)
                 entradaUDP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["udpInDatagrams"], agente.port)
                 salidaUDP = snmp.consultaSNMP(agente.comun, agente.ip, OIDs["udpOutDatagrams"], agente.port)
+                #En un agente puede no haber tramas SCTP
+                if snmp.snmpwalk(agente.comun, agente.ip, OIDs["SCTP"], agente.port) == []:
+                    salidaSCTP = "N/A"
+                    entradasSCTP = "N/A"
                 op = timed_input("", timeout=0.4)
                 #sleep(0.5)
         except Exception as e:
