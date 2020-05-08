@@ -20,7 +20,7 @@ from RRDTFunct import crearBDRRD
 from time import sleep
 import threading
 import os
-import subprocess
+import Protocolos
 
 #Lista de agentes que se monitorean
 agentes = []
@@ -127,9 +127,9 @@ def eliminar(indi: int):
             agentes.pop(indi)
             salvarEstructura(agentes, 'agentes')
 
-def mostrarAgentes():
+def mostrarAgentes(n:str='Agentes'):
     """Muestra los agentes almacenados"""
-    print("\tAgentes Disponibles\n")
+    print("\t"+n+" Disponibles\n")
     i=0
     for a in agentes:
         print(str(i)+".-"+a.ip)
@@ -147,6 +147,23 @@ def menuMonitorear():
     op = input()
     agentes[int(ag)].contabilizar(int(op))
 
+def menuRouters():
+    ag = input('Seleccione el Router: ')
+    print("1.-Generar el archivo de configuracion del router\
+                \n2.-Extraer el archivo de configuración del router\
+                \n3.-Mandar archivo de configuración al router")
+    op = input("Router: ")
+    if(op == '1'):
+        pass
+    elif(op == '2'):
+        usu = input("Usuario: ")
+        contra = input("Contraseña: ")
+        Protocolos.obtenerArchivoConfig(agentes[ag].ip, usu, contra)
+    elif(op == '3'):
+        pass
+    else:
+        print('Seleccione una opción válida')
+
 
 if __name__ == '__main__':
     agentes = []
@@ -155,7 +172,7 @@ if __name__ == '__main__':
     except FileNotFoundError:
         print('\nNo existen agentes aún\n')
     while(True):
-        print('\t\t\tInformación SNMP')
+        print('\n\t\t\tInformación SNMP\n')
         if agentes == []:
             print('No hay agentes en la lista ')
         else:
@@ -169,8 +186,8 @@ if __name__ == '__main__':
             \n4.-Reportes\
             \n5.-Contabilidad de Red\
             \n6.-Opciones para Routers\
-            \n7.-Salir')
-        op = input()
+            \n7.-Salir\n')
+        op = input("Opción: ")
         if(op == '1'):
             agregar()
         elif(op == '2'):
@@ -194,11 +211,8 @@ if __name__ == '__main__':
             menuMonitorear()
         elif(op == '6'):
             limpiar()
-            print("1.-Generar el archivo de configuracion del router\
-                \n2.-Extraer el archivo de configuración del router\
-                \n3.-Mandar archivo de configuración al router")
-            subprocess.run("./Scripts/Generar.sh")
-            input()
+            mostrarAgentes('Routers')
+            menuRouters()
         elif(op == '7'):
             print('Cerrando conexiones...')
             #Aplicando la Ñera por que no hay método para matar hilos eggsDe

@@ -1,4 +1,5 @@
-"""Clase encargada de los método que ejecutarán los hilos en bucle"""
+"""
+Clase encargada de los método que ejecutarán los hilos en bucle"""
 """
 TODO: Optimizar el código del hilo de contabilizar
 """

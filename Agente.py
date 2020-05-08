@@ -1,4 +1,5 @@
-"""Archivo para la clase Agente y sus funcinalidades"""
+"""
+Archivo para la clase Agente y sus funcinalidades"""
 """
 TODO: Descomentiza todo lo del hilo 'actualizar', que no lo estás usando para esta practica xD
 TODO: Aguas, checa monitorizar() creo que genera multiples hilos jajajaja
