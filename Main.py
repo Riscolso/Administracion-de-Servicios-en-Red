@@ -16,6 +16,7 @@ TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicam
 TODO: Qué hacer si un agente se caé a media moniterización?
 TODO: Pasar la función de actualizar al archivo de hilo
 TODO: Usar inyección de dependencias para organizar el código, que se está volviendo muy desorganizado xD
+TODO: Agregar opción de eliminra todos los agentes.
 """
 from typing import List, Generic, Dict, Any
 import Agente
@@ -165,7 +166,13 @@ if __name__ == '__main__':
             for agente in agentes:
                 agente.obtenerEstado()
                 agente.monitorear()
-        print('1.-Agregar Dispositivo\n2.-Eliminar Dispositivo\n3.-Resumen\n4.-Reportes\n5.-Contabilidad de Red\n6.-Salir')
+        print('1.-Agregar Dispositivo\
+            \n2.-Eliminar Dispositivo\
+            \n3.-Resumen\
+            \n4.-Reportes\
+            \n5.-Contabilidad de Red\
+            \n6.-Opciones para Routers\
+            \n7.-Salir')
         op = input()
         if(op == '1'):
             agregar()
@@ -189,6 +196,10 @@ if __name__ == '__main__':
             mostrarAgentes()
             menuMonitorear()
         elif(op == '6'):
+            print("1.-Generar el archivo de configuracion del router\
+                \n2.-Extraer el archivo de configuración del router\
+                \n3.-Mandar archivo de configuración al router")
+        elif(op == '7'):
             print('Cerrando conexiones...')
             #Aplicando la Ñera por que no hay método para matar hilos eggsDe
             for agente in agentes:
