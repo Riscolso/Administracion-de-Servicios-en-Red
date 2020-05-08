@@ -2,6 +2,8 @@
 Script encargado de todas las funciones relacionadas con protocolos
 de red, como FTP y TELNET
 """
+from typing import List
+
 
 def obtenerArchivoConfig(host: str, usuario: str, contra: str, nombreArchivo:str=''):
     """Cliente FTP. Se conecta a un host y obtiene su archivo de configuración
@@ -50,3 +52,25 @@ def subirArchivoConfig(host: str, usuario: str, contra: str, nombreArchivo:str='
     except Exception as ex:
         print('Se produjo un error al enviar el archivo de configuraciónhacia el servidor FTP')
         print(ex)
+
+def ejecutarComandoTelnet(host: str, usuario: str, contra: str, comandos: List[str], mostrarConsola: str= False):
+    """Cliente TELNET. se conectar a un servidor Telnet de un router
+    y genera los comandos dados
+    https://docs.python.org/3.8/library/telnetlib.html
+    """
+    import telnetlib
+    tn = telnetlib.Telnet(host)
+    tn.read_until(b"User: ")
+    tn.write(usuario.encode('ascii') + b"\n")
+    if contra:
+        #Al parecer tiene que hacer el write con la constraseña de getpass
+        #Por que sí no, el muy especial no funciona
+        tn.read_until(b"Password: ")
+        tn.write(contra.encode('ascii') + b"\n")
+    tn.write(b"enable\n")
+    #Yo sé que solo se ejecuta un solo comando en la práctica, pero chanzón y sirve después xD
+    for comando in comandos:
+        tn.write(comando.encode('ascii') + b"\n")
+    tn.write(b"exit\n")
+    if mostrarConsola:
+        print(tn.read_all())

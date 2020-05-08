@@ -13,6 +13,7 @@ TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicam
 TODO: Qué hacer si un agente se caé a media moniterización?
 TODO: Usar inyección de dependencias para organizar el código, que se está volviendo muy desorganizado xD
 TODO: Agregar opción de eliminar todos los agentes.
+TODO: Ocultar las contraseñas
 """
 from typing import List, Generic, Dict, Any
 import Agente
@@ -21,6 +22,7 @@ from time import sleep
 import threading
 import os
 import Protocolos
+import getpass
 
 #Lista de agentes que se monitorean
 agentes = []
@@ -153,7 +155,10 @@ def menuRouters():
                 \n3.-Mandar archivo de configuración al router")
     op = input("Opción: ")
     if(op == '1'):
-        pass
+        usu = input("Usuario: ")
+        contra = getpass.getpass()
+        comandos = ["copy running-config st"]
+        Protocolos.ejecutarComandoTelnet(agentes[int(ag)].ip, usu, contra, comandos)
     elif(op == '2'):
         usu = input("Usuario: ")
         contra = input("Contraseña: ")
