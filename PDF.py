@@ -33,4 +33,4 @@ def crearPDF(agente: Agente):
         c.drawText(text)
         c.save()
     except Exception as e:
-        print('Error al crear el PDF: '+ e)
+        print('Error al crear el PDF: '+ str(e))

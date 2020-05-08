@@ -84,14 +84,17 @@ def graficar(host: str, t:int):
     except Exception as e:
         print('Super EFE ', e)
 
-OID = '1.3.6.1.2.1.7.5.1.2'
+OIDWALK = '1.3.6.1.2.1.1'
+OID = "1.3.6.1.2.1.1.1.0"
 
 
 #Sección de pruebas rápidas ;D
-#aux = snmpwalk('grupo4cv5', 'localhost', OID, '161')
+#aux = snmpwalk('grupo4cv5', 'localhost', OIDWALK, '161')
 #print(aux)
 #if aux is not None:
 #    print(aux)
 
-#aux = consultaSNMP('grupo4cv5', '192.168.100.33', OID, 161)
-#print('Valor: ', aux)
+# aux = consultaSNMP('grupo4cv5', '192.168.0.1', OID, 161, True)
+# print('Valor: ', aux)
+# aux = aux.split()[2]
+# print('Valor: ', aux)

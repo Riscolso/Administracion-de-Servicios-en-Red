@@ -196,10 +196,13 @@ class Agente():
         """Obtiene el nombre y la versión del SO del agente por medio de SNMP"""
         aux = snmp.consultaSNMP(self.comun, self.ip, '1.3.6.1.2.1.1.1.0', self.port, True)
         if aux.find('#')!=-1: #Si es linux
-            aux = aux.split()[5]
-            ''.join(aux)
-            self.so = aux[aux.find('-')+1:]
-            self.soVer = aux[aux.find('~')+1:aux.find('-')]
+            if(aux.find("Ubuntu")>0): #En caso de ser Ubuntu
+                soaux = aux.split()[5]
+                ''.join(soaux)
+                self.so = soaux[soaux.find('-')+1:]
+            else:#En caso de ser una distro de Linux no reconocida
+                self.so = aux.split()[2]
+            self.soVer = aux.split()[4]
         else: #Si es windows
             self.so = aux.split()[14]
             self.soVer = aux.split()[16]
