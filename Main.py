@@ -149,7 +149,7 @@ def menuMonitorear():
 
 def menuRouters():
     ag = input('Seleccione el Router: ')
-    print("1.-Generar el archivo de configuracion del router\
+    print("\n1.-Generar el archivo de configuracion del router\
                 \n2.-Extraer el archivo de configuración del router\
                 \n3.-Mandar archivo de configuración al router")
     op = input("Router: ")
@@ -158,7 +158,7 @@ def menuRouters():
     elif(op == '2'):
         usu = input("Usuario: ")
         contra = input("Contraseña: ")
-        Protocolos.obtenerArchivoConfig(agentes[ag].ip, usu, contra)
+        Protocolos.obtenerArchivoConfig(agentes[int(ag)].ip, usu, contra)
     elif(op == '3'):
         pass
     else:
@@ -213,6 +213,7 @@ if __name__ == '__main__':
             limpiar()
             mostrarAgentes('Routers')
             menuRouters()
+            input()
         elif(op == '7'):
             print('Cerrando conexiones...')
             #Aplicando la Ñera por que no hay método para matar hilos eggsDe
