@@ -23,13 +23,6 @@ def crearPDF(agente: Agente):
         text.textLine('Tiempo de actividad: '+ agente.time)
         text.textLine('Comunidad: '+agente.comun)
         text.textLine('host : '+agente.ip)
-        #Mostrar en consola los valores
-        print('Sistema operativo: '+agente.so+'\t\tVersión: '+agente.soVer)
-        print('Ubicación: ' +agente.ubicacion)
-        print('Número de Interfaces: '+ agente.cantinter)
-        print('Tiempo de actividad: '+ agente.time)
-        print('Comunidad: '+agente.comun)
-        print('host : '+agente.ip)
         c.line(0, 800, 595, 800)
         tamx = 250
         tamy = 100

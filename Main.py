@@ -51,11 +51,19 @@ def cargarEstructura(fname):
     f.close()
     return est
 
-def resumen():
-    """Muestra un resumen de la monitarización"""
-    print('Número de agentes: ',  len(agentes))
+def resumen(noAgente: int = None, nomAgente: str = 'Agente'):
+    """Muestra un resumen de la monitarización
+    O de un agente en específico
+    Se puede mostrar con nombres diferentes"""
+    auxAges = []
+    if noAgente:
+        print('Información de '+nomAgente)
+        auxAges = agentes[noAgente]
+    else:
+        auxAges = agentes
+        print('Número de '+nomAgente+': ',  len(auxAges))
     i = 0
-    for agente in agentes:
+    for agente in auxAges:
         agente.obtenerInfoInterfaces()
         print('Agente ', i)
         print('\tIP: ', agente.ip)
@@ -149,29 +157,38 @@ def menuMonitorear():
 
 def menuRouters():
     ag = input('Seleccione el Router: ')
-    print("\n1.-Generar el archivo de configuracion del router\
-                \n2.-Extraer el archivo de configuración del router\
-                \n3.-Mandar archivo de configuración al router")
-    op = input("Opción: ")
-    if(op == '1'):
-        usu = input("Usuario: ")
-        contra = getpass.getpass()
-        comandos = ["copy running-config st"]
-        Protocolos.ejecutarComandoTelnet(agentes[int(ag)].ip, usu, contra, comandos)
-    elif(op == '2'):
-        usu = input("Usuario: ")
-        contra = getpass.getpass()
-        nombre = input("Nombre del archivo\
-            \nEn caso de que se desee el nombre por default, solo presionar Enter: ")
-        Protocolos.obtenerArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
-    elif(op == '3'):
-        usu = input("Usuario: ")
-        contra = getpass.getpass()
-        nombre = input('Nombre del archivo a enviar\
-            \nEn caso de ser uno descargado por default, solo presionar Enter: ')
-        Protocolos.subirArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
-    else:
-        print('Seleccione una opción válida')
+    op = ''
+    while(op!='5'):
+        print("\n1.-Generar el archivo de configuracion del router\
+                    \n2.-Extraer el archivo de configuración del router\
+                    \n3.-Mandar archivo de configuración al router\
+                    \n4.-Mostrar información de Router\
+                    \n5.-Regresar")
+        op = input("Opción: ")
+        if(op == '1'):
+            usu = input("Usuario: ")
+            contra = getpass.getpass()
+            comandos = ["copy running-config st"]
+            Protocolos.ejecutarComandoTelnet(agentes[int(ag)].ip, usu, contra, comandos)
+        elif(op == '2'):
+            usu = input("Usuario: ")
+            contra = getpass.getpass()
+            nombre = input("Nombre del archivo\
+                \nEn caso de que se desee el nombre por default, solo presionar Enter: ")
+            Protocolos.obtenerArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
+        elif(op == '3'):
+            usu = input("Usuario: ")
+            contra = getpass.getpass()
+            nombre = input('Nombre del archivo a enviar\
+                \nEn caso de ser uno descargado por default, solo presionar Enter: ')
+            Protocolos.subirArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
+        elif(op == '4'):
+            pass
+        elif(op == '5'):
+            pass
+        else:
+            print('Seleccione una opción válida')
+        limpiar()
 
 
 if __name__ == '__main__':
