@@ -74,3 +74,5 @@ def ejecutarComandoTelnet(host: str, usuario: str, contra: str, comandos: List[s
     tn.write(b"exit\n")
     if mostrarConsola:
         print(tn.read_all())
+    else:
+        print('Se mandó el comando con éxito (Y)')
