@@ -2,21 +2,17 @@
 """
 Práctica de Administración de Servicios en Red
 TODO: Volver la variable de contraseña, privada xD
-TODO: Arreglar Todo lo de la practica 2 :'C
 TODO: Cambiar color a las gráficas xD
 TODO: Usar variables CPU RAM Y HDD en la clase Agente
 TODO: Organizar los archivos en carpetas
 TODO: Mover las funciones de RRDTOOL al archivo RRDFunct
-TODO: Parar hilos al borrar agente
 TODO: Manejo de excepciones.... O usar None
 TODO: Borrar imagenes
 TODO: Validaciones(Versión SNMP)
-TODO: Mostrar la interfaces bonito =D 
 TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicamente
 TODO: Qué hacer si un agente se caé a media moniterización?
-TODO: Pasar la función de actualizar al archivo de hilo
 TODO: Usar inyección de dependencias para organizar el código, que se está volviendo muy desorganizado xD
-TODO: Agregar opción de eliminra todos los agentes.
+TODO: Agregar opción de eliminar todos los agentes.
 """
 from typing import List, Generic, Dict, Any
 import Agente
@@ -24,6 +20,7 @@ from RRDTFunct import crearBDRRD
 from time import sleep
 import threading
 import os
+import subprocess
 
 #Lista de agentes que se monitorean
 agentes = []
@@ -196,9 +193,12 @@ if __name__ == '__main__':
             mostrarAgentes()
             menuMonitorear()
         elif(op == '6'):
+            limpiar()
             print("1.-Generar el archivo de configuracion del router\
                 \n2.-Extraer el archivo de configuración del router\
                 \n3.-Mandar archivo de configuración al router")
+            subprocess.run("./Scripts/Generar.sh")
+            input()
         elif(op == '7'):
             print('Cerrando conexiones...')
             #Aplicando la Ñera por que no hay método para matar hilos eggsDe
