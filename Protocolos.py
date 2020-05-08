@@ -25,3 +25,28 @@ def obtenerArchivoConfig(host: str, usuario: str, contra: str, nombreArchivo:str
         print('Se produjo un error al obtener el archivo de configuración\
             desde el servidor FTP')
         print(ex)
+
+def subirArchivoConfig(host: str, usuario: str, contra: str, nombreArchivo:str=''):
+    """Cliente FTP. Se conecta a un host y envía un archivo de configuración"""
+    try:
+        import ftplib
+        #Conectar con el host
+        ftp = ftplib.FTP(host)
+        #Ingresar
+        ftp.login(usuario, contra)
+        #ftp.retrlines('LIST') #Para mostrar los archivos
+        archivo = './Archivos de configuracion/'
+        #En caso de que el arvhio tenga nombre diferente
+        if nombreArchivo!='':
+            archivo += nombreArchivo
+        else:
+            archivo += 'startup-config ' + host
+        #Abrir el archivo a enviar
+        archivoBIN = open(archivo, 'rb')
+        #print(archivoBIN.readlines())
+        ftp.storbinary('STOR startup-config', archivoBIN)
+        print("Archivo enviado =)")
+        ftp.quit()
+    except Exception as ex:
+        print('Se produjo un error al enviar el archivo de configuraciónhacia el servidor FTP')
+        print(ex)

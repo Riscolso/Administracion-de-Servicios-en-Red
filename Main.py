@@ -103,8 +103,7 @@ def eliminar(indi: int):
     """Elimina un elemento de la lista de agentes dado un índice"""
     from os import remove
     global agentes
-    print('Seguro? s/n')
-    o = input()
+    o = input('Seguro? s/n: ')
     if (o =='s' or o == 'S'):
         #Apagar el hilo de monitoreo
         agentes[indi].ence = False
@@ -152,15 +151,21 @@ def menuRouters():
     print("\n1.-Generar el archivo de configuracion del router\
                 \n2.-Extraer el archivo de configuración del router\
                 \n3.-Mandar archivo de configuración al router")
-    op = input("Router: ")
+    op = input("Opción: ")
     if(op == '1'):
         pass
     elif(op == '2'):
         usu = input("Usuario: ")
         contra = input("Contraseña: ")
-        Protocolos.obtenerArchivoConfig(agentes[int(ag)].ip, usu, contra)
+        nombre = input("Nombre del archivo\
+            \nEn caso de que se desee el nombre por default, solo presionar Enter: ")
+        Protocolos.obtenerArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
     elif(op == '3'):
-        pass
+        usu = input("Usuario: ")
+        contra = input("Contraseña: ")
+        nombre = input('Nombre del archivo a enviar\
+            \nEn caso de ser uno descargado por default, solo presionar Enter: ')
+        Protocolos.subirArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
     else:
         print('Seleccione una opción válida')
 
@@ -191,10 +196,12 @@ if __name__ == '__main__':
         if(op == '1'):
             agregar()
         elif(op == '2'):
-            print('Ingresa el número del agente que quieres fusilar')
+            limpiar()
+            a = input('Ingresa el número del agente que quieres fusilar: ')
             mostrarAgentes()
-            eliminar(int(input()))
+            eliminar(a)
         elif(op == '3'):
+            limpiar()
             resumen()
             input()
         elif(op == '4'):
