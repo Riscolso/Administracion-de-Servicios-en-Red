@@ -16,7 +16,7 @@ OIDs={
     "ipRoutingFwdNetBroadcast" : '1.3.6.1.2.1.4.3.0',
     "icmpOutEchos": '1.3.6.1.2.1.5.21.0',
     "tcpInSegs" : '1.3.6.1.2.1.6.10.0',
-    #"udpInDatagrams": '1.3.6.1.2.1.7.1',
+    "udpInDatagrams": '1.3.6.1.2.1.7.1.0',
     "RAMTOTAL" : '8.40.1.232 1.3.6.1.2.1.25.2.3.1.5.5.0',
     "RAMLIBRELINUX" : '1.3.6.1.4.1.2021.4.15.0',
     "RAMUSA" : '1.3.6.1.2.1.25.2.3.1.6.5.0',
@@ -26,7 +26,7 @@ OIDs={
     "DISCOTOTAL" : '1.3.6.1.2.1.25.2.3.1.5.36',
     "TCPIN" : "1.3.6.1.2.1.6.10.0",
     "TCPOUT" : "1.3.6.1.2.1.6.11.0",
-    "udpInDatagrams" : "1.3.6.1.2.1.7.1.0",
+    #"udpInDatagrams" : "1.3.6.1.2.1.7.1.0",
     "udpOutDatagrams" : "1.3.6.1.2.1.7.4.0",
     "SCTP" : "1.3.6.1.2.1.104",
     "tcpConnectionEntry" : "1.3.6.1.2.1.6.19.1",
@@ -63,7 +63,7 @@ def hiloActualizar(clase: Agente):
             #Funciona en Linux, no en windows... De hecho ni siquiera existe xD
             #icmp = int(snmp.consultaSNMP(clase.comun, clase.ip, '1.3.6.1.2.1.5.30.1.4.1.8', clase.port))
             segs = int(snmp.consultaSNMP(clase.comun, clase.ip, OIDs["tcpInSegs"], clase.port))
-            udp = int(snmp.consultaSNMP(clase.comun, clase.ip,["udpInDatagrams"] , clase.port))
+            udp = int(snmp.consultaSNMP(clase.comun, clase.ip, OIDs["udpInDatagrams"], clase.port))
             valor = "N:" + str(uni) + ':' + str(ips) + ':' + str(icmp) + ':' + str(segs) + ':' + str(udp)
             rrdtool.update(clase.ip+'.rrd', valor)
             #print('Valor:', valor)
