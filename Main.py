@@ -13,6 +13,7 @@ TODO: Monitorizar si el agente está ON u OFF y modificar su variable dinámicam
 TODO: Qué hacer si un agente se caé a media moniterización?
 TODO: Usar inyección de dependencias para organizar el código, que se está volviendo muy desorganizado xD
 TODO: Agregar opción de eliminar todos los agentes.
+TODO: Ordenar código de consultas SNMP en la clase Agente
 """
 from typing import List, Generic, Dict, Any
 import Agente
@@ -51,25 +52,45 @@ def cargarEstructura(fname):
     f.close()
     return est
 
-def resumen(noAgente: int = None, nomAgente: str = 'Agente'):
+def resumen(noAgente: int = None, nomAgente: str = 'Agente', detalles: str = False):
     """Muestra un resumen de la monitarización
     O de un agente en específico
     Se puede mostrar con nombres diferentes"""
     auxAges = []
+    i = 0
+    #En caso de que sea un solo agente
     if noAgente:
         print('Información de '+nomAgente)
-        auxAges = agentes[noAgente]
+        auxAges = [agentes[noAgente]]
+        #Solo mostrar el número del agente
+        i = noAgente
+    #Para TODOS los agentes
     else:
         auxAges = agentes
         print('Número de '+nomAgente+': ',  len(auxAges))
-    i = 0
+        #Contador para mostrar todos los índices de los agentes
+        i = 0
     for agente in auxAges:
         agente.obtenerInfoInterfaces()
-        print('Agente ', i)
+        print(nomAgente+': '+ i)
         print('\tIP: ', agente.ip)
         print('\tEstado: ', agente.edo)
         print('\tInterfaces Disponibles: ', agente.dispointer)
         print('\tDisponibilidad de interfaces: ', agente.inter)
+        if detalles:
+            agente.obtenerSO()
+            agente.obtenerUbicacion()
+            agente.obtenerTiempo()
+            print('\tSistema Operativo: ' + agente.so+'\t\tVersión: ', agente.soVer)
+            print('\tUbicación: ' + agente.ubicacion)
+            print('\tTiempo encendido: ' + agente.time)
+            print('\tVersión SNMP: '+agente.snmpver+'\
+                \n\tComunidad: '+agente.comun+'\
+                \n\tPuerto: '+ agente.port)
+            if (input("Desea generar un pdf con la infomación? y/n") == 'y'):
+                agente.crearReporte()
+
+        #comunidad
         print('\n')
         i+=1
     
@@ -183,7 +204,7 @@ def menuRouters():
                 \nEn caso de ser uno descargado por default, solo presionar Enter: ')
             Protocolos.subirArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
         elif(op == '4'):
-            pass
+            resumen(int(ag), 'Router', True)
         elif(op == '5'):
             pass
         else:
