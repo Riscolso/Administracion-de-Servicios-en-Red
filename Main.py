@@ -72,7 +72,7 @@ def resumen(noAgente: int = None, nomAgente: str = 'Agente', detalles: str = Fal
         i = 0
     for agente in auxAges:
         agente.obtenerInfoInterfaces()
-        print(nomAgente+': '+ i)
+        print(nomAgente+': '+ str(i))
         print('\tIP: ', agente.ip)
         print('\tEstado: ', agente.edo)
         print('\tInterfaces Disponibles: ', agente.dispointer)
@@ -86,9 +86,9 @@ def resumen(noAgente: int = None, nomAgente: str = 'Agente', detalles: str = Fal
             print('\tTiempo encendido: ' + agente.time)
             print('\tVersión SNMP: '+agente.snmpver+'\
                 \n\tComunidad: '+agente.comun+'\
-                \n\tPuerto: '+ agente.port)
-            if (input("Desea generar un pdf con la infomación? y/n") == 'y'):
-                agente.crearReporte()
+                \n\tPuerto: '+ agente.port+'\n\n')
+            if (input("Desea generar un pdf con la infomación? y/n: ") == 'y'):
+                agente.crearReporte(int(input('Número de minutos hacia atrás a partir de ahora?:')))
 
         #comunidad
         print('\n')
@@ -177,9 +177,9 @@ def menuMonitorear():
     agentes[int(ag)].contabilizar(int(op))
 
 def menuRouters():
-    ag = input('Seleccione el Router: ')
-    op = ''
-    while(op!='5'):
+    while(True):
+        mostrarAgentes('Routers')
+        ag = input('Seleccione el Router: ')
         print("\n1.-Generar el archivo de configuracion del router\
                     \n2.-Extraer el archivo de configuración del router\
                     \n3.-Mandar archivo de configuración al router\
@@ -204,11 +204,13 @@ def menuRouters():
                 \nEn caso de ser uno descargado por default, solo presionar Enter: ')
             Protocolos.subirArchivoConfig(agentes[int(ag)].ip, usu, contra, nombre)
         elif(op == '4'):
+            limpiar()
             resumen(int(ag), 'Router', True)
         elif(op == '5'):
-            pass
+            break
         else:
             print('Seleccione una opción válida')
+        input()
         limpiar()
 
 
@@ -260,7 +262,6 @@ if __name__ == '__main__':
             menuMonitorear()
         elif(op == '6'):
             limpiar()
-            mostrarAgentes('Routers')
             menuRouters()
             input()
         elif(op == '7'):
