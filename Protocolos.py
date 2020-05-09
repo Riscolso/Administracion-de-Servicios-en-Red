@@ -59,20 +59,24 @@ def ejecutarComandoTelnet(host: str, usuario: str, contra: str, comandos: List[s
     https://docs.python.org/3.8/library/telnetlib.html
     """
     import telnetlib
-    tn = telnetlib.Telnet(host)
-    tn.read_until(b"User: ")
-    tn.write(usuario.encode('ascii') + b"\n")
-    if contra:
-        #Al parecer tiene que hacer el write con la constraseña de getpass
-        #Por que sí no, el muy especial no funciona
-        tn.read_until(b"Password: ")
-        tn.write(contra.encode('ascii') + b"\n")
-    tn.write(b"enable\n")
-    #Yo sé que solo se ejecuta un solo comando en la práctica, pero chanzón y sirve después xD
-    for comando in comandos:
-        tn.write(comando.encode('ascii') + b"\n")
-    tn.write(b"exit\n")
-    if mostrarConsola:
-        print(tn.read_all())
-    else:
-        print('Se mandó el comando con éxito (Y)')
+    try:
+        tn = telnetlib.Telnet(host)
+        tn.read_until(b"User: ")
+        tn.write(usuario.encode('ascii') + b"\n")
+        if contra:
+            #Al parecer tiene que hacer el write con la constraseña de getpass
+            #Por que sí no, el muy especial no funciona
+            tn.read_until(b"Password: ")
+            tn.write(contra.encode('ascii') + b"\n")
+        tn.write(b"enable\r")
+        #Yo sé que solo se ejecuta un solo comando en la práctica, pero chanzón y sirve después xD
+        for comando in comandos:
+            tn.write(comando.encode('ascii') + b"\r")
+        tn.write(b"exit\r")
+        if mostrarConsola:
+            print(tn.read_all())
+        else:
+            print('Se mandó el comando con éxito (Y)')
+    except Exception as ex:
+        print('Se produjo un error al enviar el archivo de configuraciónhacia el servidor FTP')
+        print(ex)

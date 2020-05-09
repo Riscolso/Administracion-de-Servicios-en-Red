@@ -189,7 +189,7 @@ def menuRouters():
         if(op == '1'):
             usu = input("Usuario: ")
             contra = getpass.getpass()
-            comandos = ["copy running-config st"]
+            comandos = ["copy running-config startup-config"]
             Protocolos.ejecutarComandoTelnet(agentes[int(ag)].ip, usu, contra, comandos)
         elif(op == '2'):
             usu = input("Usuario: ")
